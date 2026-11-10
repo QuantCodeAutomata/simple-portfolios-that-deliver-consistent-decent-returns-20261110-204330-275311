@@ -1,0 +1,277 @@
+{
+  "n_tickers_loaded": 59,
+  "n_rows": 5832,
+  "date_range": [
+    "2005-01-03",
+    "2024-12-31"
+  ],
+  "non_massive_source": {
+    "QQQ": "yahoo",
+    "MDY": "yahoo",
+    "USMV": "yahoo",
+    "QUAL": "yahoo",
+    "EWJ": "yahoo",
+    "EWU": "yahoo",
+    "EWS": "yahoo",
+    "EWT": "yahoo",
+    "EWI": "yahoo",
+    "MUB": "yahoo",
+    "LQDH": "yahoo",
+    "HYG": "yahoo",
+    "EMB": "yahoo",
+    "IAGG": "yahoo",
+    "GLD": "yahoo",
+    "SLV": "yahoo",
+    "PPLT": "yahoo",
+    "CPER": "yahoo",
+    "USO": "yahoo",
+    "UGA": "yahoo",
+    "WEAT": "yahoo",
+    "SOYB": "yahoo",
+    "CANE": "yahoo"
+  },
+  "warnings": {
+    "QQQ": [
+      "start moved to 2018-06-04",
+      "yahoo has 5033 bars vs massive 1656"
+    ],
+    "MDY": [
+      "start moved to 2010-01-29",
+      "yahoo has 5033 bars vs massive 3756"
+    ],
+    "SCHD": [
+      "start moved to 2011-10-20"
+    ],
+    "USMV": [
+      "start moved to 2011-10-20",
+      "yahoo has 3320 bars vs massive 3313"
+    ],
+    "QUAL": [
+      "start moved to 2013-07-18",
+      "yahoo has 2884 bars vs massive 2883"
+    ],
+    "EWJ": [
+      "start moved to 2016-11-04",
+      "yahoo has 5033 bars vs massive 2051"
+    ],
+    "EWU": [
+      "start moved to 2016-11-04",
+      "yahoo has 5033 bars vs massive 2051"
+    ],
+    "EWS": [
+      "start moved to 2016-11-04",
+      "yahoo has 5033 bars vs massive 2051"
+    ],
+    "EWT": [
+      "start moved to 2016-11-04",
+      "yahoo has 5033 bars vs massive 2051"
+    ],
+    "EWI": [
+      "start moved to 2016-11-04",
+      "yahoo has 5033 bars vs massive 2051"
+    ],
+    "MUB": [
+      "start moved to 2009-06-11",
+      "yahoo has 4358 bars vs massive 3916"
+    ],
+    "LQDH": [
+      "start moved to 2014-06-17",
+      "yahoo has 2654 bars vs massive 2535"
+    ],
+    "HYG": [
+      "start moved to 2009-06-11",
+      "yahoo has 4463 bars vs massive 3916"
+    ],
+    "BNDX": [
+      "start moved to 2013-06-04"
+    ],
+    "EMB": [
+      "start moved to 2009-06-11",
+      "yahoo has 4287 bars vs massive 3916"
+    ],
+    "IAGG": [
+      "start moved to 2015-11-12",
+      "yahoo has 2298 bars vs massive 2289"
+    ],
+    "VWOB": [
+      "start moved to 2013-06-04"
+    ],
+    "GLD": [
+      "start moved to 2008-05-22",
+      "yahoo has 5033 bars vs massive 4181"
+    ],
+    "SLV": [
+      "start moved to 2009-06-11",
+      "yahoo has 4701 bars vs massive 3916"
+    ],
+    "PPLT": [
+      "start moved to 2018-10-01",
+      "yahoo has 3770 bars vs massive 1573"
+    ],
+    "CPER": [
+      "start moved to 2011-11-15",
+      "yahoo has 3302 bars vs massive 2974"
+    ],
+    "USO": [
+      "start moved to 2009-06-11",
+      "yahoo has 4714 bars vs massive 3916"
+    ],
+    "UGA": [
+      "start moved to 2009-06-11",
+      "yahoo has 4240 bars vs massive 3916"
+    ],
+    "CORN": [
+      "start moved to 2010-06-09"
+    ],
+    "WEAT": [
+      "start moved to 2011-09-19",
+      "yahoo has 3343 bars vs massive 3336"
+    ],
+    "SOYB": [
+      "start moved to 2011-09-19",
+      "yahoo has 3343 bars vs massive 3324"
+    ],
+    "CANE": [
+      "start moved to 2011-09-19",
+      "yahoo has 3343 bars vs massive 3187"
+    ],
+    "IBIT": [
+      "start moved to 2024-01-11"
+    ],
+    "ETHA": [
+      "start moved to 2024-07-23"
+    ]
+  },
+  "failed": {},
+  "search_universe_23_candidates_before_listing_filter": [
+    "SPY",
+    "QQQ",
+    "VTV",
+    "VUG",
+    "MDY",
+    "IWM",
+    "SCHD",
+    "USMV",
+    "QUAL",
+    "XLK",
+    "XLV",
+    "XLF",
+    "XLY",
+    "XLI",
+    "XLP",
+    "XLE",
+    "XLU",
+    "XLB",
+    "IBB",
+    "IYR",
+    "AGG",
+    "TLT",
+    "IEF",
+    "TIP",
+    "MUB",
+    "LQD",
+    "LQDH",
+    "HYG",
+    "BNDX",
+    "EMB",
+    "IAGG",
+    "VWOB",
+    "GLD",
+    "SLV",
+    "PPLT",
+    "IBIT",
+    "ETHA"
+  ],
+  "search_universe_23_filtered": [
+    "SPY",
+    "QQQ",
+    "VTV",
+    "VUG",
+    "MDY",
+    "IWM",
+    "XLK",
+    "XLV",
+    "XLF",
+    "XLY",
+    "XLI",
+    "XLP",
+    "XLE",
+    "XLU",
+    "XLB",
+    "IBB",
+    "IYR",
+    "AGG",
+    "TLT",
+    "IEF",
+    "TIP",
+    "LQD",
+    "GLD"
+  ],
+  "search_universe_23_filtered_count": 23,
+  "maxdiv_broad_universe": [
+    "SPY",
+    "QQQ",
+    "VTV",
+    "VUG",
+    "MDY",
+    "IWM",
+    "SCHD",
+    "USMV",
+    "QUAL",
+    "XLK",
+    "XLV",
+    "XLF",
+    "XLY",
+    "XLI",
+    "XLP",
+    "XLE",
+    "XLU",
+    "XLB",
+    "IBB",
+    "IYR",
+    "AGG",
+    "TLT",
+    "IEF",
+    "TIP",
+    "MUB",
+    "GLD",
+    "SLV",
+    "PPLT",
+    "IBIT",
+    "ETHA"
+  ],
+  "maxdiv_broad_universe_count": 30,
+  "benchmark_6040": {
+    "r": 0.04484962128905967,
+    "sigma": 0.10555343940409813,
+    "MDD": 0.35766693597035065,
+    "TO": 0.11743233030615416,
+    "SR": 0.42489966733683127,
+    "LQ": 0.07394407560510488
+  },
+  "best_spy_agg_gld_split": {
+    "SPY": 0.4,
+    "AGG": 0.2,
+    "GLD": 0.39999999999999997,
+    "vc": "False",
+    "r": 0.05729162748825822,
+    "sigma": 0.09917956300738412,
+    "MDD": 0.277367468777497,
+    "TO": 0.16269567832740342,
+    "SR": 0.577655574909044,
+    "LQ": 0.390777393359675
+  },
+  "strongest_hindsight_selected_portfolio": {
+    "source": "diagnostic_max_diversification",
+    "tickers": [
+      "SPY",
+      "TLT",
+      "GLD",
+      "IBIT"
+    ],
+    "SR": 0.8542474269483255,
+    "MDD": 0.2817186601125196
+  },
+  "note_hindsight": "This portfolio is hindsight-selected: it was identified by searching over the full 2005-2025 backtest window, as described in Sec. 6.2.",
+  "executed_max_combos_per_size": 4000
+}
