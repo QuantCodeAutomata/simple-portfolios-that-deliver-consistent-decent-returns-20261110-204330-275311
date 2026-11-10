@@ -38,8 +38,8 @@ def backfill_ibit_returns(ibit_prices: pd.Series, btc_prices: pd.Series) -> pd.S
     """Daily return series for IBIT, extended backward with bitcoin spot returns.
 
     Sec. 6.2 extends IBIT backward with bitcoin spot returns from 2017; the
-    exact source/convention is not specified on the retrieved pages (recorded
-    in results/RESULTS.md), so this project uses bitcoin's own daily return
+    paper does not specify the exact source or convention (recorded in
+    results/RESULTS.md), so this project uses bitcoin's own daily return
     series as a direct proxy for IBIT's pre-listing daily return, joined at
     IBIT's first real trading date so the two segments chain without a
     fabricated jump at the splice point.

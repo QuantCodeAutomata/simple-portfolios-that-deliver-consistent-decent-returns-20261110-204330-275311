@@ -204,19 +204,19 @@ windows, consistent with the paper's robustness claim.
   package directly (the two republish the same underlying DFF series).
 * **IBIT pre-listing backfill.** The paper extends IBIT backward with
   bitcoin spot returns from 2017 but does not specify the exact data source
-  or return convention on the retrieved pages. This project backfills IBIT's
+  or return convention. This project backfills IBIT's
   daily return series with the Dataloader's own `X:BTCUSD` daily return
   series (spliced at IBIT's first real trading date, 2024-01-11), which is
   an assumption, not a value taken from the paper.
 * **23-ETF filtered search universe.** The paper describes the filtering
   rule (exclude Country and Futures categories, exclude ETFs not listed at
-  the backtest start) but does not print the resulting 23-ticker list on the
-  retrieved pages; it was reconstructed by applying that rule to Table 1's
-  59-ETF universe and is recorded in `results/exp1_summary.json`.
+  the backtest start) but does not print the resulting 23-ticker list; it
+  was reconstructed by applying that rule to Table 1's 59-ETF universe and
+  is recorded in `results/exp1_summary.json`.
 * **Momentum/MovingAverage Universe composition.** The paper states the
   post-ablation "Momentum Universe" holds 26 ETFs across six categories but
-  does not print the exact removed-category list on the retrieved pages.
-  This project removes {Sector, Country, Futures} for momentum (which yields
+  does not print the exact removed-category list. This project removes
+  {Sector, Country, Futures} for momentum (which yields
   exactly 26 ETFs and matches the three categories whose individual removal
   raises Sharpe the most) and {Country, Government, Global} for the moving
   average signal, based on the paper's narrative description of which
@@ -224,10 +224,10 @@ windows, consistent with the paper's robustness claim.
   values read directly off a table.
 * **Ridge regression sample weighting.** The half-life-weighted training
   scheme implied by Table 19's `H_ridge` is implemented with
-  scikit-learn's `Ridge.fit(..., sample_weight=...)`; the exact weighting
-  formula is not spelled out on the retrieved pages, so exponential decay
-  with the stated half-life was used as the direct reading of "half-life of
-  the training sample weights".
+  scikit-learn's `Ridge.fit(..., sample_weight=...)`; the paper does not
+  spell out the exact weighting formula, so exponential decay with the
+  stated half-life was used as the direct reading of "half-life of the
+  training sample weights".
 * **Covariance evaluation universe membership (Experiment 2).** To keep one
   fixed covariance-matrix dimension per asset class across the whole
   2005-2025 window, each of the four evaluation universes (Equities, Fixed

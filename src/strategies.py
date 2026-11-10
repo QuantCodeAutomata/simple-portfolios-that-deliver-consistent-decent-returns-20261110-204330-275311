@@ -8,9 +8,9 @@ risk parity, and maximum diversification. Minimum volatility, risk parity and
 maximum diversification are solved with CVXPY, following the paper's own
 CVXPY-style formulations (Sec. 3.2, Appendix C code listings).
 
-Context7 (cvxpy) confirmed `quad_form` and the exponential/log atoms used
-below; PyPortfolioOpt and Riskfolio-Lib were not used because the paper gives
-its own custom convex formulations (risk parity with an explicit cash slack,
+cvxpy's `quad_form` and exponential/log atoms are used directly below;
+PyPortfolioOpt and Riskfolio-Lib were not used because the paper gives its
+own custom convex formulations (risk parity with an explicit cash slack,
 maximum diversification in correlation space) that differ from those
 packages' default objectives.
 """

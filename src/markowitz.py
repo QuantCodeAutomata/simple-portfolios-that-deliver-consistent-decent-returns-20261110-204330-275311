@@ -7,9 +7,10 @@
                |w - w_pre| <= delta_w
                0 <= w <= w_max
 
-Context7 (cvxpy) confirmed the second-order-cone formulation of a quadratic
-risk constraint via ``cp.SOC``/``cp.norm2``; when a factor decomposition
-Sigma = F F^T + diag(d) is available the risk constraint is imposed as
+cvxpy's second-order-cone atoms (``cp.SOC``/``cp.norm2``) give a
+second-order-cone formulation of the quadratic risk constraint; when a
+factor decomposition Sigma = F F^T + diag(d) is available the risk
+constraint is imposed as
 ``cp.norm2(vstack([F.T @ w, sqrt(d) * w])) <= sigma_tgt``, exactly the
 paper's Appendix C code listing, avoiding a dense quadratic constraint.
 """

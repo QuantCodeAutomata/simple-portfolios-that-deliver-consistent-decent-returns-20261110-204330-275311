@@ -2,10 +2,9 @@
 
 Simple signals (one-month momentum, 50-day moving average) and a per-asset
 rolling ridge regression on non-overlapping price-based features (STR, MTM,
-LTR). Context7 (scikit-learn Ridge) confirmed that ``sklearn.linear_model
-.Ridge.fit`` accepts a ``sample_weight`` array, so the half-life-weighted
-training scheme of Table 19 is implemented with scikit-learn's Ridge rather
-than a hand-rolled normal-equations solver.
+LTR). ``sklearn.linear_model.Ridge.fit`` accepts a ``sample_weight`` array,
+so the half-life-weighted training scheme of Table 19 is implemented with
+scikit-learn's Ridge rather than a hand-rolled normal-equations solver.
 """
 
 from __future__ import annotations

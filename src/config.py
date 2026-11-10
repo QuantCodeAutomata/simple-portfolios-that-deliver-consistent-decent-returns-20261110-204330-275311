@@ -72,10 +72,10 @@ EXCLUDED_CATEGORIES_FOR_SEARCH = ("Country", "Futures")  # excluded from the 23-
 FIXED_SPLIT_GRID_STEP = 0.10            # 10 percentage-point grid for SPY/AGG/GLD split enumeration (Sec. 6.2)
 BENCHMARK_6040 = {"SPY": 0.6, "AGG": 0.4}  # 60/40 benchmark fixed weights
 
-# IBIT bitcoin backfill (Sec. 6.2); the exact source/convention the paper used is not
-# specified on the retrieved pages, so IBIT's pre-listing history is reconstructed from
-# Dataloader crypto bars (ticker "X:BTCUSD") starting 2017-01-01, an assumption recorded
-# in results/RESULTS.md, not a paper fact.
+# IBIT bitcoin backfill (Sec. 6.2); the paper does not specify the exact source or
+# convention, so IBIT's pre-listing history is reconstructed from Dataloader crypto
+# bars (ticker "X:BTCUSD") starting 2017-01-01, an assumption recorded in
+# results/RESULTS.md, not a paper fact.
 IBIT_BACKFILL_START = "2017-01-01"
 IBIT_BACKFILL_SOURCE_TICKER = "X:BTCUSD"
 

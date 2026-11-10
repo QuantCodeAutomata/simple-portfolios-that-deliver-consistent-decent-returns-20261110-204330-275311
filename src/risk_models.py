@@ -12,12 +12,11 @@ moments rather than demeaned covariances):
   with k statistical factors fitted on the EWMA-weighted correlation matrix
   of winsorized, volatility-standardized returns.
 
-Context7 (scikit-learn FactorAnalysis) was checked for an EM factor-analysis
-implementation; sklearn.decomposition.FactorAnalysis fits Lambda/Psi by EM but
-only from raw equally-weighted samples, not from a precomputed EWMA-weighted
-correlation matrix as Appendix A requires, so the EM recursion here is a
-custom implementation operating directly on that matrix (classic
-Rubin-Thayer 1982 factor-analysis EM, as summarized in Appendix A).
+sklearn.decomposition.FactorAnalysis fits Lambda/Psi by EM but only from raw
+equally-weighted samples, not from a precomputed EWMA-weighted correlation
+matrix as Appendix A requires, so the EM recursion here is a custom
+implementation operating directly on that matrix (classic Rubin-Thayer 1982
+factor-analysis EM, as summarized in Appendix A).
 """
 
 from __future__ import annotations
