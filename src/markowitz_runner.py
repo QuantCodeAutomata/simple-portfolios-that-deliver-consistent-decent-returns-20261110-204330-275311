@@ -76,11 +76,18 @@ def moving_average_alpha_fn(prices: pd.DataFrame) -> AlphaFn:
 def realized_future_alpha_fn(returns: pd.DataFrame, horizon: int = ANNUALIZATION_DAYS) -> AlphaFn:
     """Non-implementable regret-bound alpha (Sec. 3.3, Sec. 6.4).
 
-    Uses the average realized daily return over the following ``horizon``
-    trading days as the alpha forecast -- deliberately looking ahead to
-    obtain an upper bound on what any causal alpha model could achieve. Must
-    only be combined with yearly rebalancing so the bound is not inflated by
-    unrealistically frequent perfect-foresight trading.
+    Uses the realized *cumulative* log return over the following ``horizon``
+    trading days (``sum(log1p(r))`` over the window, i.e. ``log(p_{t+h}/p_t)``)
+    as the alpha forecast -- deliberately looking ahead to obtain an upper
+    bound on what any causal alpha model could achieve. The cumulative
+    (not average-daily) scale matches the convention of the causal alpha
+    signals, which are themselves cumulative log returns over their forecast
+    horizon (``momentum_signal``'s ``log(p_t / p_{t-21})``, Sec. 5.2): the
+    objective ``alpha^T w`` is only meaningful as an expected return *over the
+    upcoming holding period*, and with yearly rebalancing that period is one
+    year, not one day. Must only be combined with yearly rebalancing so the
+    bound is not inflated by unrealistically frequent perfect-foresight
+    trading.
     """
     values = returns.to_numpy(dtype=float)
     col_pos = {c: i for i, c in enumerate(returns.columns)}
@@ -95,7 +102,7 @@ def realized_future_alpha_fn(returns: pd.DataFrame, horizon: int = ANNUALIZATION
                 continue
             col = window[:, j]
             col = col[~np.isnan(col)]
-            out[tk] = float(col.mean()) if len(col) else 0.0
+            out[tk] = float(np.log1p(col).sum()) if len(col) else 0.0
         return out
 
     return fn
