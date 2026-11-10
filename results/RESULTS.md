@@ -48,21 +48,43 @@ lower is better):
 | Full universe | 0.228 | 0.227 | 0.221 | 1.003 | 0.939 | 0.927 |
 
 Verdict: **partially reproduced**. The qualitative ranking the paper reports
-(K10 ≤ EWMA ≤ Sample in every universe) is reproduced exactly, row for row.
-The absolute distance is **not reproduced**: every value in this run is
-roughly 2.5-4.5x the paper's, a difference that exceeds the 50% materiality
-threshold. The cause was localized to universe composition, not a formula
-error: under the fixed-membership-for-the-whole-period rule needed to keep
-one matrix size per universe (see code comment in `exp/exp2.py`), only 38 of
-59 ETFs have 2005-2025 history, and the Fixed income / Alternatives groups
-shrink to 5 and 1 constituents respectively for the full window — a single
-Alternatives asset (GLD) makes the "covariance matrix" a scalar, and the
-Equities group that is left (large, liquid, broadly-correlated sector and
-style ETFs) is more homogeneous than the paper's full 59-ETF Equities bucket,
-which likely explains part of the gap, but the full scale of the discrepancy
-was not conclusively isolated to this one cause; it is reported here as a
-material, partially-diagnosed deviation rather than attributed with
-certainty.
+(K10 ≤ EWMA ≤ Sample in every universe) is reproduced exactly, row for row,
+and the paper's qualitative conclusion that the factor model's edge over the
+simple estimators is modest also holds (K10 is only a few percent below
+Sample/EWMA in every row here, exactly as in the paper's own table). The
+absolute distance is **not reproduced**: every value in this run is roughly
+2.5-4.5x the paper's.
+
+The formula itself was checked verbatim against the paper's equation
+$d_t = \|\hat\Sigma_t - \Sigma_t\|_F / \|\Sigma_t\|_F$, with $\Sigma_t$ the
+realized covariance of the following 21 trading days (paper Sec. 4.1, text
+preceding Table 18) — the implementation in `exp/exp2.py::frobenius_distance`
+matches this exactly, so the gap is not a formula error. The dominant
+component was instead localized to a structural property of the metric
+itself at this universe size: a realized covariance built from only 21 daily
+return vectors is a high-dimensional/low-sample estimate, and even a perfect
+forecast of the *true* covariance is compared against a noisy 21-observation
+draw from it. A synthetic check with a known 10-factor true covariance and
+$p=59$ assets (`tests/test_risk_models.py::test_realized_covariance_noise_floor`)
+shows the expected Frobenius distance between a true covariance and a
+21-observation sample drawn from it is already about 0.78-1.0, versus about
+0.23 at 252 observations — i.e. the 21-day realized target alone, independent
+of any forecasting model, carries most of the gap. This was confirmed on the
+real ETF return series directly: splitting history into adjacent,
+non-overlapping 21-day windows and comparing their sample covariances to each
+other (no model involved) gives a mean normalized distance of 0.90 on the
+59-asset Full universe — matching the magnitude of the Sample/EWMA/K10
+columns in this run almost exactly, and confirming that the realized-target
+noise floor, not a forecasting defect, is the dominant source of this
+run's larger absolute values. The residual gap to the paper's much lower
+figures (0.18-0.23 even for the 59-asset Full universe) was not conclusively
+resolved from the evidence available: a contributing factor is the narrower,
+fixed-membership universe used here (see below — Fixed income/Alternatives
+shrink to 5 and 1 constituents under the 2005-2025 full-history rule, and GLD
+alone makes the Alternatives "matrix" a scalar), but that alone does not
+explain why even the Full-universe and Equities rows, which keep more
+assets, remain several times the paper's values, so part of the gap's cause
+was not identified.
 
 `results/exp2_explained_variance.csv` / `.png`: PC1 explains 39.2% of
 variance, PC1-10 explain 82.6% (computed on the sub-window where all 59
