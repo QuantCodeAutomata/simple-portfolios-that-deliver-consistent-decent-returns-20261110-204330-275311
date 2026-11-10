@@ -32,7 +32,7 @@ def test_backtest_no_shorting_no_leverage_and_nav_positive():
     )
     rf = pd.Series(0.00005, index=dates)
 
-    def strategy(date, t_index):
+    def strategy(date, t_index, w_pre=None):
         return {"A": 0.5, "B": 0.5}
 
     result = run_backtest(returns, strategy, rf)
@@ -49,7 +49,7 @@ def test_backtest_charges_cost_proportional_to_turnover():
     returns = pd.DataFrame(0.0, index=dates, columns=["A", "B"])
     rf = pd.Series(0.0, index=dates)
 
-    def strategy(date, t_index):
+    def strategy(date, t_index, w_pre=None):
         # Flip fully between A and B each rebalance -> turnover = 1 each time.
         first_reb = monthly_rebalance_dates(dates)[0]
         return {"A": 1.0, "B": 0.0} if date == first_reb else {"A": 0.0, "B": 1.0}
@@ -72,7 +72,7 @@ def test_backtest_no_lookahead_strategy_only_sees_past_index():
     rf = pd.Series(0.0, index=dates)
     seen_indices = []
 
-    def strategy(date, t_index):
+    def strategy(date, t_index, w_pre=None):
         seen_indices.append(t_index)
         assert dates[t_index] == date
         return {"A": 0.5, "B": 0.5}

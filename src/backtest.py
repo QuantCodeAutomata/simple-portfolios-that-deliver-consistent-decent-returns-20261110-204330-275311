@@ -25,7 +25,7 @@ import pandas as pd
 from src.config import MIN_HISTORY_DAYS, TRADING_COST_KAPPA
 
 
-StrategyFn = Callable[[pd.Timestamp, int], np.ndarray]
+StrategyFn = Callable[[pd.Timestamp, int, dict], np.ndarray]
 
 
 @dataclass
@@ -73,9 +73,13 @@ def run_backtest(
     ----------
     returns : DataFrame (dates x tickers) of daily simple total returns;
         NaN before an asset is investable.
-    strategy_fn : callable(date, t_index) -> dict[ticker, weight], the target
-        weights on tickers investable at that date; no cash key (cash is the
-        residual 1 - sum(weights)).
+    strategy_fn : callable(date, t_index, w_pre) -> dict[ticker, weight], the
+        target weights on tickers investable at that date; no cash key (cash
+        is the residual 1 - sum(weights)). ``w_pre`` is a dict of the actual
+        portfolio weights just before trading (post-drift since the last
+        rebalance), needed by strategies that penalize or cap trades relative
+        to the previous allocation (e.g. the modified Markowitz problem,
+        Sec. 3.3); strategies that ignore it simply do not use the argument.
     risk_free_daily : Series of daily cash returns aligned to ``returns.index``.
     kappa : half-spread trading cost rate per dollar traded (turnover).
     rebalance_dates : trading dates on which the strategy is invoked; defaults
@@ -107,7 +111,8 @@ def run_backtest(
 
         if date in rebalance_set:
             w_pre = h / v
-            w_target_dict = strategy_fn(date, t)
+            w_pre_dict = dict(zip(tickers, w_pre))
+            w_target_dict = strategy_fn(date, t, w_pre_dict)
             w_target = np.zeros(n)
             for i, tkr in enumerate(tickers):
                 w_target[i] = w_target_dict.get(tkr, 0.0)

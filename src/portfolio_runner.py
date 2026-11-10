@@ -84,7 +84,7 @@ def make_strategy_fn(
     if method in ("fixed", "fixed_vc"):
         assert fixed_weights_map is not None, "fixed_weights_map is required for fixed-weight methods"
 
-    def strategy_fn(date: pd.Timestamp, t: int) -> dict[str, float]:
+    def strategy_fn(date: pd.Timestamp, t: int, w_pre: dict | None = None) -> dict[str, float]:
         active = investable_subset(candidates, listing_index, t, min_history)
         if method in ("fixed", "fixed_vc"):
             active = [tk for tk in active if fixed_weights_map.get(tk, 0.0) > 0]
