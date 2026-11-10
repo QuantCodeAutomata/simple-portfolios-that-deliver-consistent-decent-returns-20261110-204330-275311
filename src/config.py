@@ -39,6 +39,12 @@ WINSORIZE_Z = 3.0                      # clip standardized returns at +/-3 std b
 # Horizon over which realized covariance / returns are evaluated after a monthly forecast
 REALIZED_HORIZON_DAYS = 21             # 21 trading days = one month of trading (Sec. 4.1/6.3)
 
+# Sec. 6.3 fits the factor model on "the full historical return matrix available up to
+# each forecast date"; this project caps the growing estimation window at ten times the
+# correlation half-life (Table 17), beyond which EWMA weights are below 0.1% and
+# numerically negligible, to bound per-rebalance computation on the full 59-ETF universe.
+FACTOR_MODEL_MAX_LOOKBACK = 1260
+
 # ---------------------------------------------------------------------------
 # Table 19/20: alpha model parameters (Sec. 5.2, 5.3, 6.3)
 # ---------------------------------------------------------------------------
