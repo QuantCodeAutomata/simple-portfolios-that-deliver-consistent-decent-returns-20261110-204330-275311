@@ -99,26 +99,29 @@ below the paper's figures each).
 
 | lambda | mean R² (run) | paper |
 |---|---|---|
-| 1e-3 | 0.144 | negative at every lambda |
-| 1e-2 | 0.152 | negative |
-| 1e-1 | 0.162 | negative |
-| 1.0 | 0.123 | negative |
-| 10.0 | 0.058 | negative |
-| 100.0 | 0.022 | negative |
-| 1000.0 | 0.012 | negative (closest to 0) |
+| 1e-3 | -0.796 | negative at every lambda |
+| 1e-2 | -0.683 | negative |
+| 1e-1 | -0.427 | negative |
+| 1.0 | -0.191 | negative |
+| 10.0 | -0.110 | negative |
+| 100.0 | -0.098 | negative (closest to 0) |
+| 1000.0 | -0.099 | negative |
 
-Verdict: **not reproduced**. The paper's central claim for this part is that
+Verdict: **reproduced**. The paper's central claim for this part is that
 out-of-sample R² is **negative at every regularization level** (Sec. 5.3,
-Fig. 25), i.e. the ridge forecasts are worse than always predicting zero. This
-run finds **positive** R² peaking near lambda≈0.1 (R²≈0.16), with R²
-decreasing toward (but not reaching) zero as lambda grows — the correct
-qualitative shape (forecasts shrinking toward zero improve fit as
-regularization increases past the peak) but the wrong sign at every level.
-This is an unresolved, identified-as-material discrepancy; see "Not
-reproduced" for what would be required to fully localize it (the R² at
-lambda→∞ should tend to 0 from below, not stay positive, which points at a
-remaining look-ahead or scaling issue in the per-asset rolling R² computation
-that was not isolated within this run).
+Fig. 25), i.e. the ridge forecasts are worse than always predicting zero, and
+that the fit improves (R² rises toward, but not past, zero) only as larger
+lambda shrinks the forecasts toward zero. An earlier run of this pipeline
+found positive R² at every lambda, which pointed at a look-ahead defect: the
+rolling-window target alignment let the training window's end date reach
+past the last date with a fully realized 21-day forward return, so a few
+training rows were partially informed by the same forward window being
+scored out of sample. Rebuilding the training/test split in
+`rolling_ridge_oos_r2` (`src/alpha.py`) so that every training pair's
+forecast date is strictly before `t - h` removed this leakage; R² is now
+negative at every lambda in {1e-3, ..., 1e3} and rises monotonically from
+-0.80 (lambda=1e-3) to -0.098 (lambda=100) before flattening, matching the
+paper's qualitative shape and sign.
 
 ### Part B — Full-universe and category-ablated Markowitz backtests (`results/exp3_markowitz_ablation.csv`)
 
@@ -262,13 +265,6 @@ windows, consistent with the paper's robustness claim.
   for that reason. The closest result obtained under the paper's prescribed
   test set is the extreme-asset diagnostic SPY/TLT/GLD/IBIT portfolio under
   maximum diversification (SR 0.854).
-* **Ridge regression R² sign (Experiment 3, Part A).** The paper reports
-  negative out-of-sample R² at every tested regularization level; this run's
-  ridge sweep finds positive R² throughout (peaking at 0.16, decaying toward
-  but not reaching zero). This is flagged as an unresolved, material
-  discrepancy rather than a reproduced result; isolating its cause (most
-  likely a residual look-ahead or a scale mismatch between the per-asset
-  rolling-window targets and features) was not completed within this run.
 * **Regret-bound upper bound magnitude (Experiment 4).** The paper reports a
   regret-bound Sharpe ratio of about 1.57, clearly above every implementable
   portfolio. This run's regret bound (SR 0.376) does not dominate the other

@@ -66,27 +66,33 @@ def rolling_ridge_oos_r2(
 ) -> float:
     """Out-of-sample R^2 of a rolling ridge regression for one asset (Sec. 5.3).
 
-    At each forecast date t, fits ridge on the most recent ``lookback_h``
-    complete (feature, target) pairs ending at t - horizon - 1 (so the
-    training target y_{t'} = r_{t'+horizon} never uses information beyond
-    t - 1), forecasts r_{t+horizon}, and accumulates the terms of
-    R^2 = 1 - sum_t (r_t - r_hat_t)^2 / sum_t r_t^2.
+    At each forecast date t (row index i), the target y_{t'} = r_{t'+horizon}
+    of a training pair is only known once t'+horizon has passed, so a fold
+    may only use pairs "ending at t - h - 1" (Sec. 5.3 / Table 19's training
+    scheme): the most recent complete pair has training index t - horizon,
+    i.e. the training slice is ``x[i-horizon-lookback_h : i-horizon]``. An
+    earlier version of this function trained on ``x[i-lookback_h:i]``
+    instead, which includes targets y_{t'} for t' up to i-1 that embed prices
+    up to idx[i-1]+horizon — horizon-1 trading days *after* the forecast date
+    idx[i] — a look-ahead leak that inflated the out-of-sample R^2 to
+    positive values, contradicting the paper's reported negative R^2 at every
+    regularization level.
     """
     features = _non_overlapping_features(prices)
     fwd_return = np.log(prices.shift(-horizon) / prices)
     data = pd.concat([features, fwd_return.rename("target")], axis=1).dropna()
-    assert len(data) > lookback_h + horizon, "not enough history for a single ridge fold"
+    assert len(data) > lookback_h + 2 * horizon, "not enough history for a single ridge fold"
 
     x = data[["STR", "MTM", "LTR"]].to_numpy()
     y = data["target"].to_numpy()
-    idx = data.index
 
     num, den = 0.0, 0.0
     n_folds = 0
-    for i in range(lookback_h, len(data) - horizon):
-        train_x = x[i - lookback_h:i]
-        train_y = y[i - lookback_h:i]
-        sw = _sample_weights(lookback_h, halflife)
+    sw = _sample_weights(lookback_h, halflife)
+    for i in range(lookback_h + horizon, len(data) - horizon):
+        train_end = i - horizon  # exclusive: last training pair ends at t - h - 1
+        train_x = x[train_end - lookback_h:train_end]
+        train_y = y[train_end - lookback_h:train_end]
         model = Ridge(alpha=lam, fit_intercept=True)
         model.fit(train_x, train_y, sample_weight=sw)
         y_hat = model.predict(x[i:i + 1])[0]
